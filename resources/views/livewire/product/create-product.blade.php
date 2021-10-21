@@ -1,0 +1,59 @@
+<div>
+    <div>
+        <div class="row">
+            <div class="col-9 mx-auto">
+                @if ($showSuccesNotification)
+                <div wire:model="showSuccesNotification" class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
+                    <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-text text-white">{{ __('Produto inserido com sucesso!') }}</span>
+                    <button wire:click="$set('showSuccesNotification', false)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+                @endif
+
+                <div class="card card-body mt-4">
+                    <form wire:submit.prevent="create" action="#" method="POST" role="form">
+                        <h6 class="mb-0">Novo produto</h6>
+                        <p class="text-sm mb-0">Criar novo produto</p>
+                        <hr class="horizontal dark my-3">
+                        <label for="projectName" class="form-label">Nome do produto</label>
+                        @error('name') <span class="text-danger text-sm mb-0">{{ $message }}</span> @enderror
+                        <input wire:model="name" type="text" class="form-control" id="projectName" onfocus="focused(this)" onfocusout="defocused(this)">
+
+                        <label class="mt-4">Descrição</label>
+                        <p class="form-text text-muted text-xs ms-1">
+                            Faça uma breve descrição do produto
+                        </p>
+                        @error('description') <span class="text-danger text-sm mb-0">{{ $message }}</span> @enderror
+                        <input wire:model="description" type="text" class="form-control" id="projectDescription" onfocus="focused(this)" onfocusout="defocused(this)">
+
+                        <label class="mt-4">Valor</label>
+                        <p class="form-text text-muted text-xs ms-1">
+                           Coloque o valor desse produto
+                        </p>
+                        @error('value') <span class="text-danger text-sm mb-0">{{ $message }}</span> @enderror
+                        <input wire:model="value" type="number" class="form-control" id="projectValue" onfocus="focused(this)" onfocusout="defocused(this)">
+
+                        <label class="mt-4">Categoria</label>
+                        @error('category') <span class="text-danger text-sm mb-0">{{ $message }}</span> @enderror
+                        <select wire:model="category" class="form-control" id="productOption">
+                            <option selected value="0"> Selecione sua categoria </option>
+                            @foreach($allCategory as $ctg)
+                            <option value="{{ $ctg->name}}"> {{ $ctg->name }} </option>
+                            @endforeach
+                        </select>
+                        <label class="mt-4 form-label">Imagem</label>
+                        @error('image') <span class="text-danger text-sm mb-0">{{ $message }}</span> @enderror
+                        <input type="file" wire:model="image" class="form-control">
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{{route('product')}}">
+                                <button type="button" name="button" class="btn btn-light m-0">Cancelar</button>
+                            </a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Criar produto</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
