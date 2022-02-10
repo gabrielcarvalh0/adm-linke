@@ -11,8 +11,6 @@ use Livewire\Component;
 
 class Signatures extends Component
 {
-    public $showSuccesNotification  = false;
-    public $showSuccesNotificationUnlock  = false;
     public $link;
 
     public $businessAccess;
@@ -31,7 +29,7 @@ class Signatures extends Component
     {
         $adapter = Storage::disk('dropbox')->getAdapter();
         $client = $adapter->getClient();
-        
+
         return view('livewire.business.signatures', [
             'client' => $client
         ]);
@@ -40,19 +38,20 @@ class Signatures extends Component
     public function block($id)
     {
         $business = Business::where('id', $id)->first();
-        $isBlock = ModelsSignatures::where('link', $business->name)->first();
+        $isBlock = ModelsSignatures::where('link', $business->name)->where('status', '1')->first();
         if (!$isBlock) {
             ModelsSignatures::create([
-                'link' => $business->name
+                'link' => $business->name,
+                'status' => '1'
             ]);
-            $this->showSuccesNotification = true;
+            $message = 'bloqueada';
+        } else {
+            $isBlock->delete();
+            $message = 'desbloqueada';
         }
-    }
 
-    public function unlock($id)
-    {
-        $business = Business::where('id', $id)->first();
-        $block =   ModelsSignatures::where('link', $business->name)->delete();
-        $this->showSuccesNotificationUnlock = true;
+        return redirect()->route('signatures')->with([
+            'message' => 'Empresa ' . $business->name .' '. $message
+        ]);
     }
 }

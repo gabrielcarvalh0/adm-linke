@@ -11,5 +11,6 @@ class Signatures extends Model
 
     protected $fillable = [
         'link',
+        'status'
     ];
 }

@@ -1,26 +1,16 @@
 <div>
     <div class="row">
         <div class="col-12">
-            @if ($showSuccesNotification)
-            <div wire:model="showSuccesNotification" class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
-                <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
-                <span class="alert-text text-white">{{ __('Empresa bloqueada!') }}</span>
-                <button wire:click="$set('showSuccesNotification', false)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                </button>
-            </div>
-            @endif
-
-            @if ($showSuccesNotificationUnlock)
-            <div wire:model="showSuccesNotificationUnlock" class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
-                <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
-                <span class="alert-text text-white">{{ __('Empresa desbloqueada!') }}</span>
-                <button wire:click="$set('showSuccesNotificationUnlock', false)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                </button>
-            </div>
-            @endif
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
-
+                    @if (Session::has('message'))
+                    <div class="mt-3 alert alert-primary alert-dismissible fade show" role="alert">
+                        <span class="alert-icon text-white"><i class="ni ni-like-2"></i></span>
+                        <span class="alert-text text-white">{{ Session::get('message') }}</span>
+                        <button  type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                    @endif
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -82,19 +72,15 @@
                                     </td>
                                     <td class="text-center">
 
-                                        @if($businessAccess->where('link', $bus->name)->first())
-                                        <a wire:click="unlock({{$bus->id}})">
-                                            <span>
-                                                <i class="cursor-pointer fas fa-unlock-alt text-secondary"></i>
-                                            </span>
-                                        </a>
-                                        @else
                                         <a wire:click="block({{$bus->id}})">
                                             <span>
-                                                <i class="cursor-pointer fas fa-ban text-secondary"></i>
+                                                @if($businessAccess->where('link', $bus->name)->where('status', '1')->first())
+                                                <i class="cursor-pointer text-danger fas fa-ban text-secondary"></i>
+                                                @else
+                                                <i class="cursor-pointer text-success  fas fa-unlock-alt text-secondary"></i>
+                                                @endif
                                             </span>
                                         </a>
-                                        @endif
 
                                     </td>
                                 </tr>
