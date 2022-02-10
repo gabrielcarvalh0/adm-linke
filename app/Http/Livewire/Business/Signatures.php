@@ -3,14 +3,17 @@
 namespace App\Http\Livewire\Business;
 
 use App\Models\Business;
+use App\Models\Link;
 use App\Models\Signatures as ModelsSignatures;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Signatures extends Component
 {
     public $showSuccesNotification  = false;
     public $showSuccesNotificationUnlock  = false;
+    public $link;
 
     public $businessAccess;
 
@@ -21,11 +24,17 @@ class Signatures extends Component
         SEOMeta::setTitle('Empresas assinates');
         $this->business = Business::get();
         $this->businessAccess = ModelsSignatures::get();
+        $this->link = Link::get();
     }
 
     public function render()
     {
-        return view('livewire.business.signatures');
+        $adapter = Storage::disk('dropbox')->getAdapter();
+        $client = $adapter->getClient();
+        
+        return view('livewire.business.signatures', [
+            'client' => $client
+        ]);
     }
 
     public function block($id)

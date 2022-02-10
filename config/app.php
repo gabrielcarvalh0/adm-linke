@@ -177,6 +177,11 @@ return [
 
 
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+
+         /*
+        * DROPBOX
+        */
+        App\Providers\DropboxServiceProvider::class,
     ],
 
     /*

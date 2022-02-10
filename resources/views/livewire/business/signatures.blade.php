@@ -40,7 +40,7 @@
                                         Descrição
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Valor
+                                        Link da loja
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Categoria
@@ -62,7 +62,7 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <img src="{{asset('storage/'.$bus->image)}}" class="avatar avatar-sm me-3">
+                                            <img src="{{$client->getTemporaryLink($bus->image)}}" class="avatar avatar-sm me-3">
                                         </div>
                                     </td>
                                     <td class="text-center">
@@ -72,7 +72,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{$bus->description}}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">R$ 20</p>
+                                        <p class="text-xs font-weight-bold mb-0">/{{$link->where('link', strtolower(str_replace(' ', '', $bus->name)))->first()->link}}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{$bus->category}}</p>
